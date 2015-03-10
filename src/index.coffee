@@ -1,6 +1,6 @@
-R      = require 'ramda'
-Option = require 'fantasy-options'
-Either = require 'fantasy-eithers'
+R = require 'ramda'
+{Some, None} = require 'fantasy-options'
+{Left, Right} = require 'fantasy-eithers'
 
 # :: a -> Option a
 #
@@ -8,9 +8,9 @@ Either = require 'fantasy-eithers'
 #
 optional = (a) ->
   if R.isNil(a)
-    Option.None
+    None
   else
-    Option.Some(a)
+    Some(a)
 
 # :: Option a -> Boolean
 #
@@ -37,9 +37,9 @@ exists = R.curry((p, o) ->
 filter = R.curry((p, o) ->
   o.chain((a) ->
     if p(a)
-      Option.Some(a)
+      Some(a)
     else
-      Option.None))
+      None))
 
 # :: (a -> ()) -> Option a -> ()
 #
@@ -51,11 +51,11 @@ foreach = R.curry((f, o) ->
 
 # :: a -> Option b -> Either a b
 toRight = R.curry((a, o) ->
-  o.fold(Either.Right, -> Either.Left(a)))
+  o.fold(Right, -> Left(a)))
 
 # :: b -> Option a -> Either a b
 toLeft = R.curry((b, o) ->
-  o.fold(Either.Left, -> Either.Right(b)))
+  o.fold(Left, -> Right(b)))
 
 # :: Option a -> [a]
 #
